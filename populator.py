@@ -60,7 +60,7 @@ def populate_purchases():
     water_id = ["5dc72cc23c8c2216c9fcb895"]
     util_id = ["5dc72cc23c8c2216c9fcb895", "5dc72cc23c8c2216c9fcb896"]
 
-    url = "http://api.reimaginebanking.com/accounts/5dc715dc322fa016762f3649/purchases?key=226e5d0e1569a36825aafdd02fafb76e"
+    url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}".format(customerId, apiKey)
     food_id = ["57cf75cea73e494d8675f5b4", "57cf75cea73e494d8675f5bb", "57cf75cea73e494d8675f5bd", "57cf75cea73e494d8675f5bf"]
 
 
