@@ -16,7 +16,7 @@ for account in accountsJson:
 print(accounts)
 
 # Make a set of ordered triples for each account in the form
-# [date, payee, amount]
+# [date, payee, category, amount]
 
 events = {}
 for account in accounts.keys():
@@ -34,6 +34,7 @@ for account in accounts.keys():
                         datetime.date.fromisoformat(
                             deposit["transaction_date"]),
                         "Deposit",
+                        "Deposit",
                         deposit["amount"]
                     ]
                     )
@@ -50,6 +51,7 @@ for account in accounts.keys():
                         datetime.date.fromisoformat(
                             withdrawal["transaction_date"]),
                         None,
+                        "Withdrawal",
                         -withdrawal["amount"]
                     ]
                     )
@@ -69,6 +71,7 @@ for account in accounts.keys():
                         datetime.date.fromisoformat(
                             transfer["transaction_date"]),
                         None,
+                        "Transfer",
                         transferAmount
                     ]
                     )
@@ -85,6 +88,7 @@ for account in accounts.keys():
                     [
                         datetime.date.fromisoformat(bill["transaction_date"]),
                         payee,
+                        "Bill",
                         -bill["amount"]
                     ]
                     )
@@ -104,11 +108,13 @@ for account in accounts.keys():
             merchantRequest = requests.get(merchantUrl)
             merchantJson = merchantRequest.json()
             payee = merchantJson["name"]
+            merchantCategory = merchantJson["category"]
 
             events[account].append(
                     [
                         datetime.date.fromisoformat(purchase["purchase_date"]),
                         payee,
+                        merchantCategory,
                         -purchase["amount"]
                     ]
                     )
