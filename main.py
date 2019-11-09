@@ -15,7 +15,7 @@ for account in accountsJson:
     accounts[account['_id']] = account['balance']
 print(accounts)
 
-# Make a set of ordered triples for each account in the form
+# Make a set of ordered quadruples for each account in the form
 # [date, payee, category, amount]
 
 events = {}
