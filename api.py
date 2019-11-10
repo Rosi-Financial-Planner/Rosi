@@ -1,6 +1,6 @@
 import flask
 import apiScrape
-
+import os
 
 customerId = '5dc6e809322fa016762f363f'
 apiKey = '32b4c33d3c73bb71a1116bba8c3df39e'
@@ -35,4 +35,5 @@ def api_simple():
     return apiScrape.jsonSimple(customerId, apiKey)
 
 
-app.run()
+port = int(os.environ.get('PORT', 33507))
+app.run(port=port)
