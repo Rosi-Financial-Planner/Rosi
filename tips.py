@@ -62,12 +62,16 @@ def electricity_cost(path, state, base = 915):
 def elec_tip(avg, month_sum):
     percent_dif = (month_sum - avg) / avg * 100
     if(percent_dif > 20):
-        print("Your electricity bill is much higher than the average compared to individuals in your area. Last month, you spent: " + str(month_sum) + " on your month bill. This is " + str(round(percent_dif, 1)) + "% more than the average. You can reduce costs by turning off lights in unused rooms.")
+        print("Last month, you spent: $" + str(month_sum) + " on your electric bill. \nYour electricity bill is " \
+             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your electric bill here: https://paylesspower.com/blog/how-to-lower-your-electric-bill/")
     
 
-
-
-
+def water_tip(month_sum, avg = 53.41):
+    percent_dif = (month_sum - avg) / avg * 100
+    if(percent_dif > 20):
+        print("Last month, you spent: $" + str(month_sum) + " on your water bill. \nYour water bill is " \
+             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your water bill here: https://money.usnews.com/money/blogs/my-money/2012/10/16/6-simple-ways-to-save-money-on-your-water-bill")
+        
 
 if(__name__ == "__main__"):
     path = "C://Users//Rahul//Desktop//Rosi//datasets//"
@@ -75,4 +79,4 @@ if(__name__ == "__main__"):
     sums = sum_cost(events)
     last_month = str(int(str(date.today())[5:7]) - 1)
     elec_tip(state_avg, sums[last_month][0])
-    
+    water_tip(sums[last_month][1])
