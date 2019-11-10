@@ -136,55 +136,31 @@ def jsonScrape(customerId, apiKey):
     return json.dumps(scrapeTheApi(customerId, apiKey))
 
 
+def monthFilter(events, months):
+    output = {}
+    currentDate = datetime.date.today()
+    currentMonth = currentDate.month
+    currentYear = currentDate.year
+    targetMonth = currentMonth - months % 12
+    if currentMonth < months:
+        targetYear = currentYear - 1
+    else:
+        targetYear = currentYear
+
+    scraped = events
+    for key in scraped.keys():
+        output[key] = []
+        for event in scraped[key]:
+            eventYear = int(event[0][0:4])
+            eventMonth = int(event[0][5:7])
+            if eventYear >= targetYear:
+                if eventMonth >= targetMonth:
+                    output[key].append(event)
+    return json.dumps(output)
+
+
 def jsonMonthScrape(customerId, apiKey, months):
-    output = {}
-    currentDate = datetime.date.today()
-    currentMonth = currentDate.month
-    currentYear = currentDate.year
-    targetMonth = currentMonth - months % 12
-    if currentMonth < months:
-        targetYear = currentYear - 1
-    else:
-        targetYear = currentYear
-
-    scraped = scrapeTheApi(customerId, apiKey)
-    for key in scraped.keys():
-        output[key] = []
-        for event in scraped[key]:
-            eventYear = int(event[0][0:4])
-            eventMonth = int(event[0][5:7])
-            if eventYear >= targetYear:
-                if eventMonth >= targetMonth:
-                    output[key].append(event)
-    return json.dumps(output)
-
-
-def cacheLoad():
-    with open(cache, 'r') as fp:
-        return json.load(fp)
-
-
-def cacheMonthScrape(months):
-    output = {}
-    currentDate = datetime.date.today()
-    currentMonth = currentDate.month
-    currentYear = currentDate.year
-    targetMonth = currentMonth - months % 12
-    if currentMonth < months:
-        targetYear = currentYear - 1
-    else:
-        targetYear = currentYear
-
-    scraped = cacheLoad()
-    for key in scraped.keys():
-        output[key] = []
-        for event in scraped[key]:
-            eventYear = int(event[0][0:4])
-            eventMonth = int(event[0][5:7])
-            if eventYear >= targetYear:
-                if eventMonth >= targetMonth:
-                    output[key].append(event)
-    return json.dumps(output)
+    return monthFilter(jsonScrape(customerId, apiKey), months)
 
 
 if __name__ == "__main__":

@@ -1,13 +1,15 @@
 import flask
 import apiScrape
-import json
 import os
+import json
 
 customerId = '5dc6e809322fa016762f363f'
 apiKey = '32b4c33d3c73bb71a1116bba8c3df39e'
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = False
+
+cache = {}
 
 
 @app.route('/', methods=['GET'])
@@ -17,7 +19,8 @@ def home():
 
 @app.route('/entries/all', methods=['GET'])
 def api_all():
-    return json.dumps(apiScrape.cacheLoad())
+    #return apiScrape.jsonScrape(customerId, apiKey)
+    return cache
 
 
 @app.route('/entries', methods=['GET'])
@@ -28,12 +31,20 @@ def api_recent():
         return """Error: Give a number of
                   months in the past from which to draw data"""
 
-    return apiScrape.cacheMonthScrape(months)
+    #return apiScrape.jsonMonthScrape(customerId, apiKey, months)
+    return apiScrape.monthFilter(cache, months)
 
 
 @app.route('/entries/simple', methods=['GET'])
 def api_simple():
-    return json.dumps(apiScrape.simplifyToCharges(apiScrape.cacheLoad()))
+    #return apiScrape.jsonSimple(customerId, apiKey)
+    return json.dumps(apiScrape.simplifyToCharges(cache))
+
+
+@app.route('/entries/update', methods=['GET'])
+def update():
+    cache = apiScrape.scrapeTheApi(customerId, apiKey)
+    return json.dumps(apiScrape.simplifyToCharges(cache))
 
 
 port = int(os.environ.get('PORT'))
