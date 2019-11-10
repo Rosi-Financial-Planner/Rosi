@@ -43,6 +43,7 @@ def api_simple():
 
 @app.route('/entries/update', methods=['GET'])
 def update():
+    global cache
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
     return json.dumps(cache)
 
