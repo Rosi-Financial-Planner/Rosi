@@ -51,6 +51,7 @@ def update():
     #            = i["type"]
     if previouslyAsked == 1:
         cache[accountId][1][2] = "Mafia Payoff"
+        print("Updating")
     previouslyAsked = 1
     return cache
 
