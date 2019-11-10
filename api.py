@@ -38,14 +38,14 @@ def api_recent():
 @app.route('/entries/simple', methods=['GET'])
 def api_simple():
     #return apiScrape.jsonSimple(customerId, apiKey)
-    return json.dumps(apiScrape.simplifyToCharges(cache))
+    return apiScrape.simplifyToCharges(cache)
 
 
 @app.route('/entries/update', methods=['GET'])
 def update():
     global cache
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
-    return json.dumps(cache)
+    return cache
 
 
 port = int(os.environ.get('PORT'))
