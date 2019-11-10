@@ -124,24 +124,23 @@ def scrapeTheApi(customerId, apiKey):
                         )
     return events
 
-def findUnknowns(events, previouslyAsked):
-    for key in events.keys():
-        for index in range(len(events[key])):
-            if events[key][index][1] is None:
-                if index not in previouslyAsked:
-                    print("Sending message")
-                    message = "We noticed that on {} you made a purchase of ${}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
-                    client.messages.create(
-                    to = "+19083315728",
-                    from_ = "+12183668522",
-                    body = message
-                    )
+#def findUnknowns(events, previouslyAsked):
+#    for key in events.keys():
+#        for index in range(len(events[key])):
+#            if events[key][index][1] is None:
+#                if index not in previouslyAsked:
+#                    print("Sending message")
+#                    message = "We noticed that on {} you made a purchase of ${}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
+#                    client.messages.create(
+#                    to = "+19083315728",
+#                    from_ = "+12183668522",
+#                    body = message
+#                    )
 
-def getLastMessage():
-    messages = client.messages.list(limit=1)
-    print(messages[0].sid)
-    message = messages[0].sid["body"]
-    print(message)
+#def getLastMessage():
+#    messageUrl = "https://api.twilio.com/2019-11-10/Accounts/{}/Messages.json".format(account_sid)
+#    messageRequest = requests.get(messageUrl)
+#    messageJson = messageRequest.json
     
 
 def simplifyToCharges(events):
