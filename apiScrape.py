@@ -2,13 +2,13 @@ import requests
 import json
 import tips
 import datetime
-#from twilio.rest import Client
+from twilio.rest import Client
 
 
-#account_sid = 'AC22dc02bd2293d5931a08cb79e2e4f35e'
-#auth_token = 'eb5e4ef9806e7cd8602bdc9b8ce14ab2'
+account_sid = 'AC22dc02bd2293d5931a08cb79e2e4f35e'
+auth_token = 'eb5e4ef9806e7cd8602bdc9b8ce14ab2'
 
-#client = Client(account_sid, auth_token)
+client = Client(account_sid, auth_token)
 
 
 def scrapeTheApi(customerId, apiKey):
@@ -124,24 +124,20 @@ def scrapeTheApi(customerId, apiKey):
                         )
     return events
 
-#def findUnknowns(events, previouslyAsked):
-#    for key in events.keys():
-#        for index in range(len(events[key])):
-#            if events[key][index][1] is None:
-#                if index not in previouslyAsked:
-#                    print("Sending message")
-#                    message = "We noticed that on {} you made a purchase of ${}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
-#                    client.messages.create(
-#                    to = "+19083315728",
-#                    from_ = "+12183668522",
-#                    body = message
-#                    )
+def findUnknowns(events, previouslyAsked):
+    for key in events.keys():
+        for index in range(len(events[key])):
+            if events[key][index][1] is None:
+                if index not in previouslyAsked:
+                    print("Sending message")
+                    message = "We noticed that on {} you made a purchase of ${}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
+                    client.messages.create(
+                    to = "+19083315728",
+                    from_ = "+12183668522",
+                    body = message
+                    )
+                    return index
 
-#def getLastMessage():
-#    messageUrl = "https://api.twilio.com/2019-11-10/Accounts/{}/Messages.json".format(account_sid)
-#    messageRequest = requests.get(messageUrl)
-#    messageJson = messageRequest.json
-    
 
 def simplifyToCharges(events):
     output = {}

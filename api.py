@@ -45,14 +45,14 @@ def update():
     global cache
     global knownTransactions
     global previouslyAsked
-    #apiScrape.getLastMessage()
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
-    #for i in knownTransactions:
-    #    cache[accountId][knownTransactions["index"]][2]\
-    #            = knownTransactions["type"]
+    for i in knownTransactions:
+        cache[accountId][knownTransactions["index"]][2]\
+                = knownTransactions["type"]
 
-    #apiScrape.findUnknowns(cache, previouslyAsked)
+    previouslyAsked.append(apiScrape.findUnknowns(cache, previouslyAsked))
     return cache
+    knownTransactions[0] = {"index": 1, "type": "Mafia Payments"}
 
 
 @app.route('/tips', methods=['GET'])
