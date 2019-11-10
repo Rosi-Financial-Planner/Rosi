@@ -80,9 +80,9 @@ def execute(events):
     state_avg = electricity_cost(path, state)
     sums = sum_cost(events)
     last_month = str(int(str(date.today())[5:7]) - 1)
-    elec_tip(state_avg, sums[last_month][0])
-    water_tip(sums[last_month][1])
-    food_tip(sums[last_month][2])
+    print(elec_tip(state_avg, sums[last_month][0]))
+    print(water_tip(sums[last_month][1]))
+    print(food_tip(sums[last_month][2]))
 
 def get_tips(events):
     state = "NJ"
@@ -93,6 +93,7 @@ def get_tips(events):
     tips = {}
     tips["elec"] = elec_tip(state_avg, sums[last_month][0])
     tips["water"] = water_tip(sums[last_month][1])
+    tips["food"] = food_tip(sums[last_month][2])
     return tips
 
 if(__name__ == "__main__"):
