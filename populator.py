@@ -16,6 +16,23 @@ def randomDate(daysInThePast):
     return datetime.date.today() - d
 
 
+def deposit(amount):
+    url = "http://api.reimaginebanking.com/accounts/{}/deposits?key={}"\
+        .format(accountId, apiKey)
+
+    payload = {
+            "medium": "balance",
+            "transaction_date": randomDate(1000).isoformat(),
+            "status": "completed",
+            "amount": amount
+            }
+    requests.post(
+            url,
+            data=json.dumps(payload),
+            headers={'content-type': 'application/json'},
+            )
+
+
 def populate_purchases(n):
 
     url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}"\
@@ -69,5 +86,6 @@ def populate_bills(n):
         )
 
 
+deposit(100000)
 populate_purchases(150)
 populate_bills(20)
