@@ -44,7 +44,7 @@ def api_simple():
 @app.route('/entries/update', methods=['GET'])
 def update():
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
-    return json.dumps(apiScrape.simplifyToCharges(cache))
+    return json.dumps(cache)
 
 
 port = int(os.environ.get('PORT'))
