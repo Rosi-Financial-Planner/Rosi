@@ -27,17 +27,16 @@ def sum_cost(events):
 
     for i in events:
         for j in events[i]:
-            print(j)
             for month in range(1, 13):
                 if(j[0][5:7] == str(month) and j[1] == "Electricity bill"):
                     sums[str(month)][0] += abs(j[3])
                 elif(j[0][5:7] == str(month) and j[1] == "Water bill"):
                     sums[str(month)][1] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2] in food_words):
+                elif(j[0][5:7] == str(month) and j[2][0] in food_words):
                     sums[str(month)][2] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2] in clothing_words):
+                elif(j[0][5:7] == str(month) and j[2][0] in clothing_words):
                     sums[str(month)][3] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2] in entertainment_word):
+                elif(j[0][5:7] == str(month) and j[2][0] in entertainment_word):
                     sums[str(month)][4] += abs(j[3])
     return sums
     # print(sums["10"][2])
@@ -66,13 +65,9 @@ def water_tip(month_sum, avg = 53.41):
     else:
         return None
 
-def food_tip(month_sum, avg = 425):
-    if(month_sum > 425):
-        return "Last month, you spent: $" + str(month_sum) + " on food expenses. \nTo save money, we recommend spending no more than " \
-             + avg + "per month. \nSave money by spending less money on restaurants and instead buying groceries more often."
-    else:
-        return None
-
+def food_tip(month_sum):
+    return "Last month, you spent: $" + str(month_sum) + " on food expenses.\nTo save money, we recommend spending less money on restaurants and instead buying groceries more often.\nCheck out a homemade recipe for your favorite Big Mac here: https://topsecretrecipes.com/mcdonalds-big-mac-copycat-recipe.html"
+    
 def execute(events):
     state = "NJ"
     path = dataPath
