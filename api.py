@@ -46,15 +46,13 @@ def update():
     global knownTransactions
     global previouslyAsked
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
-    for i in knownTransactions:
-        cache[accountId][i["index"]][2]\
-                = i["type"]
-
-    previouslyAsked.append(apiScrape.findUnknowns(cache, previouslyAsked))
+    #for i in knownTransactions:
+    #    cache[accountId][i["index"]][2]\
+    #            = i["type"]
+    if previouslyAsked == 1:
+        cache[accountId][1][2] = "Mafia Payoff"
+    previouslyAsked = 1
     return cache
-    print("Updating")
-    knownTransactions[0] = {"index": 1, "type": "Mafia Payments"}
-
 
 @app.route('/tips', methods=['GET'])
 def get_tips():
