@@ -28,7 +28,7 @@ for account in accounts.keys():
     depositsRequest = requests.get(depositsUrl)
     depositsJson = depositsRequest.json()
     for deposit in depositsJson:
-        if deposit["status"] == "executed":
+        if deposit["status"] != "cancelled":
             events[account].append(
                     [
                         datetime.date.fromisoformat(
@@ -45,7 +45,7 @@ for account in accounts.keys():
     withdrawalsRequest = requests.get(withdrawalsUrl)
     withdrawalsJson = withdrawalsRequest.json()
     for withdrawal in withdrawalsJson:
-        if withdrawal["status"] == "executed":
+        if withdrawal["status"] != "cancelled":
             events[account].append(
                     [
                         datetime.date.fromisoformat(
@@ -62,7 +62,7 @@ for account in accounts.keys():
     transfersRequest = requests.get(transferUrl)
     transfersJson = transfersRequest.json()
     for transfer in transfersJson:
-        if transfer["status"] == "executed":
+        if transfer["status"] != "cancelled":
             transferAmount = transfer["amount"]
             if transfer["payer_id"] == account:
                 transferAmount = -transferAmount
@@ -82,14 +82,14 @@ for account in accounts.keys():
     billsRequest = requests.get(billsUrl)
     billsJson = billsRequest.json()
     for bill in billsJson:
-        if bill["status"] == "executed" or bill["status"] == "recurring":
+        if bill["status"] != "cancelled":
             payee = bill["payee"]
             events[account].append(
                     [
-                        datetime.date.fromisoformat(bill["transaction_date"]),
+                        datetime.date.fromisoformat(bill["payment_date"]),
                         payee,
                         "Bill",
-                        -bill["amount"]
+                        -bill["payment_amount"]
                     ]
                     )
     # Purchases
@@ -99,11 +99,11 @@ for account in accounts.keys():
     purchasesRequest = requests.get(purchasesUrl)
     purchasesJson = purchasesRequest.json()
     for purchase in purchasesJson:
-        if purchase["status"] == "executed":
+        if purchase["status"] != "cancelled":
             merchantID = purchase["merchant_id"]
 
             merchantUrl = \
-                'http://api.reimaginebanking.com/merchants/{}?key={'\
+                'http://api.reimaginebanking.com/merchants/{}?key={}'\
                 .format(merchantID, apiKey)
             merchantRequest = requests.get(merchantUrl)
             merchantJson = merchantRequest.json()

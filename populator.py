@@ -3,104 +3,65 @@
 import requests
 import json
 import random
+import datetime
 
-customerId = '5dc715db322fa016762f3647'
-apiKey = '226e5d0e1569a36825aafdd02fafb76e'
-
-def create_merchants():
-
-    url = 'http://api.reimaginebanking.com/merchants?key={}'.format(apiKey)
-    payload = {
-        "name": "New Jersey American Water",
-        "category": "Water",
-        "address": {
-            "street_number": "104",
-            "street_name": "Simon St",
-            "city": "Hackensack",
-            "state": "NJ",
-            "zip": "07601"
-        },
-        "geocode": {
-            "lat": 40.8716918,
-            "lng": -74.0411123
-        }
-    }
-
-    requests.post( 
-        url, 
-        data=json.dumps(payload),
-        headers={'content-type':'application/json'},
-    )
-
-    payload = {
-        "name": "PSE&G",
-        "category": "Electric",
-        "address": {
-            "street_number": "214",
-            "street_name": "Hudson St",
-            "city": "Hackensack",
-            "state": "NJ",
-            "zip": "07601"
-        },
-        "geocode": {
-            "lat": 40.8716978,
-            "lng": -74.0411163
-        }
-    }
-
-    requests.post( 
-        url, 
-        data=json.dumps(payload),
-        headers={'content-type':'application/json'},
-    )
+customerId = '5dc6e809322fa016762f363f'
+accountId = '5dc6e80d322fa016762f3644'
+apiKey = '32b4c33d3c73bb71a1116bba8c3df39e'
 
 
-def populate_purchases():
-    elect_id = ["5dc72cc93c8c2216c9fcb896"]
-    water_id = ["5dc72cc23c8c2216c9fcb895"]
-    util_id = ["5dc72cc23c8c2216c9fcb895", "5dc72cc23c8c2216c9fcb896"]
-
-    url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}".format(customerId, apiKey)
-    food_id = ["57cf75cea73e494d8675f5b4", "57cf75cea73e494d8675f5bb", "57cf75cea73e494d8675f5bd", "57cf75cea73e494d8675f5bf"]
+def randomDate(daysInThePast):
+    d = datetime.timedelta(days=random.randrange(0, daysInThePast, 1))
+    return datetime.date.today() - d
 
 
-    for i in range(10):
+def populate_purchases(n):
+
+    url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}"\
+        .format(accountId, apiKey)
+    food_id = ["57cf75cea73e494d8675f5ab", "57cf75cea73e494d8675f5b2",
+               "57cf75cea73e494d8675f5b5", "57cf75cea73e494d8675f5cd",
+               "57cf75cea73e494d8675f5ca", "57cf75cea73e494d8675f5cc"]
+
+    for i in range(n):
         mid = random.choice(food_id)
-        price = random.randint(8,30)
+        price = random.randint(8, 30)
         payload = {
             "merchant_id": mid,
             "medium": "balance",
-            "purchase_date": "2019-11-09",
+            "purchase_date": randomDate(100).isoformat(),
             "amount": price,
             "status": "completed",
             "description": "string"
         }
 
-        requests.post( 
-            url, 
+        requests.post(
+            url,
             data=json.dumps(payload),
-            headers={'content-type':'application/json'},
+            headers={'content-type': 'application/json'},
         )
 
 
-    for i in range(4):
-        mid = random.choice(util_id)
-        price = random.randint(150,300)
+def populate_bills(n):
+    billUrl = "http://api.reimaginebanking.com/accounts/{}/bills?key={}"\
+        .format(accountId, apiKey)
+
+    for i in range(n):
+        price = random.randint(150, 300)
         payload = {
-            "merchant_id": mid,
-            "medium": "balance",
-            "purchase_date": "2019-11-09",
-            "amount": price,
-            "status": "completed",
-            "description": "string"
+            "payment_date": (datetime.date.today() -
+                             datetime.timedelta(days=30*i)).isoformat(),
+            "payment_amount": price,
+            "status": "pending",
+            "payee": random.choice(["Water bill", "Electricity bill"])
         }
 
-        requests.post( 
-            url, 
+        requests.post(
+            billUrl,
             data=json.dumps(payload),
-            headers={'content-type':'application/json'},
+            headers={'content-type': 'application/json'},
         )
 
 
-populate_purchases()
-
+populate_purchases(0)
+populate_bills(5)
