@@ -45,6 +45,7 @@ def update():
     global cache
     global knownTransactions
     global previouslyAsked
+    apiScrape.getLastMessage()
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
     for i in knownTransactions:
         cache[accountId][knownTransactions["index"]][2]\
