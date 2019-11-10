@@ -1,35 +1,26 @@
 import pandas as pd
 from datetime import date
 
-# events = {"abcd":
-#     [
-#         ["2019-11-09", "PSE&G", "Bill", 300], 
-#         ["2019-11-10", "American Water", "Bill", 250],
-#         ["2019-10-06", "Moe's", "Food", 10],
-#         ["2019-11-09", "Chipotle", "Food", 30],
-#         ["2019-11-09", "PSE&G", "Bill", 100],
-#         ["2019-10-09", "PSE&G", "Bill", 200],
-#         ["2019-10-09", "AMC Theatre", "Entertainment", 40],
-
-#     ]
-# }
+food_words = ['restaurant', 'meal_takeaway', 'grocery_or_supermarket', 'meal_delivery', 'food', 'Groceries', 'bakery', 'cafe']
+clothing_words = ['department_store', 'shoe_store', 'clothing_store', 'shopping_mall', 'Department Store']
+entertainment_word = ['bar', 'night_club', 'bowling_alley']
 
 def sum_cost(events):
-    sum_el = sum_water = sum_grocery = sum_dept = sum_restaurant = 0
+    sum_el = sum_water = sum_food = sum_clo = sum_ent = 0
 
     sums = {
-        "1": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "2": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "3": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "4": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "5": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "6": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "7": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "8": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "9": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "10": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "11": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant],
-        "12": [sum_el, sum_water, sum_grocery, sum_dept, sum_restaurant]
+        "1": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "2": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "3": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "4": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "5": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "6": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "7": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "8": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "9": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "10": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "11": [sum_el, sum_water, sum_food, sum_clo, sum_ent],
+        "12": [sum_el, sum_water, sum_food, sum_clo, sum_ent]
     }
 
     for i in events:
@@ -40,11 +31,11 @@ def sum_cost(events):
                     sums[str(month)][0] += abs(j[3])
                 elif(j[0][5:7] == str(month) and j[1] == "Water bill"):
                     sums[str(month)][1] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2][0] == "grocery_or_supermarket"):
+                elif(j[0][5:7] == str(month) and j[2] in food_words):
                     sums[str(month)][2] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2] == "department_store"):
+                elif(j[0][5:7] == str(month) and j[2] in clothing_words):
                     sums[str(month)][3] += abs(j[3])
-                elif(j[0][5:7] == str(month) and j[2] == "restaurant"):
+                elif(j[0][5:7] == str(month) and j[2] in entertainment_word):
                     sums[str(month)][4] += abs(j[3])
     return sums
     # print(sums["10"][2])
@@ -69,6 +60,11 @@ def water_tip(month_sum, avg = 53.41):
         print("Last month, you spent: $" + str(month_sum) + " on your water bill. \nYour water bill is " \
              + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your water bill here: https://money.usnews.com/money/blogs/my-money/2012/10/16/6-simple-ways-to-save-money-on-your-water-bill")
         
+def food_tip(month_sum, avg = 425):
+    percent_dif = (month_sum - avg) / avg * 100
+    if(percent_dif > 20):
+        print("Last month, you spent: $" + str(month_sum) + " on food expenses. \nTo save money, we recommend spending no more than " \
+             + avg + "per month. \nSave money by spending less money on restaurants and instead buying groceries more often.")
 
 def execute(events):
     state = "NJ"
@@ -78,6 +74,7 @@ def execute(events):
     last_month = str(int(str(date.today())[5:7]) - 1)
     elec_tip(state_avg, sums[last_month][0])
     water_tip(sums[last_month][1])
+    food_tip(sums[last_month][2])
 
 
 if(__name__ == "__main__"):
