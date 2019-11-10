@@ -67,8 +67,7 @@ def water_tip(month_sum, avg = 53.41):
         return None
 
 def food_tip(month_sum, avg = 425):
-    percent_dif = (month_sum - avg) / avg * 100
-    if(percent_dif > 20):
+    if(month_sum > 425):
         return "Last month, you spent: $" + str(month_sum) + " on food expenses. \nTo save money, we recommend spending no more than " \
              + avg + "per month. \nSave money by spending less money on restaurants and instead buying groceries more often."
     else:
