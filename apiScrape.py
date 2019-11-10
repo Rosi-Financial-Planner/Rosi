@@ -124,17 +124,18 @@ def scrapeTheApi(customerId, apiKey):
                         )
     return events
 
-def findUnknowns(events):
+def findUnknowns(events, previouslyAsked):
     for key in events.keys():
         for index in range(len(events[key])):
             if events[key][index][1] == None:
-                print("Sending message")
-                message = "We noticed that on {} you made a purchase of {}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
-                client.messages.create(
-                to = "+19083315728",
-                from_ = "+12183668522",
-                body = message
-                )
+                if index not in previouslyAsked:
+                    print("Sending message")
+                    message = "We noticed that on {} you made a purchase of ${}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
+                    client.messages.create(
+                    to = "+19083315728",
+                    from_ = "+12183668522",
+                    body = message
+                    )
 
 def simplifyToCharges(events):
     output = {}

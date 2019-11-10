@@ -12,7 +12,7 @@ app.config["DEBUG"] = False
 
 cache = {}
 knownTransactions = []
-
+previouslyAsked = []
 
 @app.route('/', methods=['GET'])
 def home():
@@ -44,12 +44,13 @@ def api_simple():
 def update():
     global cache
     global knownTransactions
+    global previouslyAsked
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
     for i in knownTransactions:
         cache[accountId][knownTransactions["index"]][2]\
                 = knownTransactions["type"]
 
-    apiScrape.findUnknowns(cache)
+    apiScrape.findUnknowns(cache, previouslyAsked)
     return cache
 
 
