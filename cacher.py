@@ -9,4 +9,5 @@ while 1:
     scraped = apiScrape.scrapeTheApi(custId, key)
     with open('cache.json', 'w') as fp:
         json.dump(scraped, fp)
+    print("cached")
     time.sleep(60)
