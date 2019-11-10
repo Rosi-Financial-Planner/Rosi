@@ -139,8 +139,8 @@ def findUnknowns(events, previouslyAsked):
 
 def getLastMessage():
     messages = client.messages.list(limit=1)
-    print(messages)
-    message = messages["body"]
+    print(messages.sid)
+    message = messages.sid["body"]
     print(message)
     
 
