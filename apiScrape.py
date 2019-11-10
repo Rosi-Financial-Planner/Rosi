@@ -136,7 +136,6 @@ def findUnknowns(events, previouslyAsked):
                     from_ = "+12183668522",
                     body = message
                     )
-                    return index
 
 
 def simplifyToCharges(events):

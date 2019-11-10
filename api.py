@@ -49,8 +49,9 @@ def update():
     #for i in knownTransactions:
     #    cache[accountId][i["index"]][2]\
     #            = i["type"]
+    apiScrape.findUnknowns(cache, previouslyAsked)
     if previouslyAsked == 1:
-        cache[accountId][1][2] = "Mafia Payoff"
+        cache[accountId][1][1] = "Mafia Payoff"
         print("Updating")
     previouslyAsked = 1
     return cache
