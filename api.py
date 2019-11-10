@@ -59,15 +59,5 @@ def get_tips():
     return tips.get_tips(cache)
 
 
-@app.route('/twilio', methods=['POST'])
-def get_type():
-    global knownTransactions
-    # dictionary with entries index and type
-    index = flask.request.form['index']
-    transactionType = flask.request.form['type']
-    cache[accountId][index][2] = transactionType
-    knownTransactions.append({"index": index, "type": transactionType})
-
-
 port = int(os.environ.get('PORT'))
 app.run(host='0.0.0.0', port=port)
