@@ -1,5 +1,6 @@
 import requests
 import json
+import tips
 
 
 def scrapeTheApi(customerId, apiKey):
@@ -130,6 +131,7 @@ if __name__ == "__main__":
     key = '32b4c33d3c73bb71a1116bba8c3df39e'
 
     scraped = scrapeTheApi(custId, key)
+    tips.execute(scraped)
     simplified = simplifyToCharges(scraped)
 
     with open('result.json', 'w') as fp:

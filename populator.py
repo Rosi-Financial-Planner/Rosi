@@ -4,6 +4,7 @@ import requests
 import json
 import random
 import datetime
+import mid_repo
 
 customerId = '5dc6e809322fa016762f363f'
 accountId = '5dc6e80d322fa016762f3644'
@@ -19,13 +20,17 @@ def populate_purchases(n):
 
     url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}"\
         .format(accountId, apiKey)
-    food_id = ["57cf75cea73e494d8675f5ab", "57cf75cea73e494d8675f5b2",
-               "57cf75cea73e494d8675f5b5", "57cf75cea73e494d8675f5cd",
-               "57cf75cea73e494d8675f5ca", "57cf75cea73e494d8675f5cc"]
+    # food_id = ["57cf75cea73e494d8675f5ab", "57cf75cea73e494d8675f5b2",
+    #            "57cf75cea73e494d8675f5b5", "57cf75cea73e494d8675f5cd",
+    #            "57cf75cea73e494d8675f5ca", "57cf75cea73e494d8675f5cc"]
 
     for i in range(n):
-        mid = random.choice(food_id)
-        price = random.randint(8, 30)
+        # mid = random.choice(food_id)
+        # price = random.randint(8, 30)
+        price, mid = mid_repo.select_random()
+        
+
+
         payload = {
             "merchant_id": mid,
             "medium": "balance",
@@ -47,13 +52,17 @@ def populate_bills(n):
         .format(accountId, apiKey)
 
     for i in range(n):
-        price = random.randint(150, 300)
+        payee = random.choice(["Water bill", "Electricity bill"])
+        if(payee == "Water bill"):
+            price = random.randint(150, 300)
+        else:
+            price = random.randint(50, 150)
         payload = {
             "payment_date": (datetime.date.today() -
                              datetime.timedelta(days=30*i)).isoformat(),
             "payment_amount": price,
             "status": "pending",
-            "payee": random.choice(["Water bill", "Electricity bill"])
+            "payee": payee
         }
 
         requests.post(
@@ -63,5 +72,5 @@ def populate_bills(n):
         )
 
 
-populate_purchases(50)
-populate_bills(0)
+populate_purchases(150)
+populate_bills(20)
