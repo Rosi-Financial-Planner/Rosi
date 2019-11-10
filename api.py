@@ -1,6 +1,5 @@
 import flask
 import apiScrape
-import os
 import json
 
 customerId = '5dc6e809322fa016762f363f'
@@ -28,7 +27,7 @@ def api_recent():
         return """Error: Give a number of
                   months in the past from which to draw data"""
 
-    return apiScrape.cacheMonthScrape(customerId, apiKey, months)
+    return apiScrape.cacheMonthScrape(months)
 
 
 @app.route('/entries/simple', methods=['GET'])
