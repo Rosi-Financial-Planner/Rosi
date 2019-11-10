@@ -138,8 +138,8 @@ def findUnknowns(events, previouslyAsked):
                     )
 
 def getLastMessage():
-    messages = client.messages.list(limit=1).json()
-    message = messages["messages"][0]["body"]
+    messages = client.messages.list(limit=1)
+    message = messages[0]["body"]
     print(message)
     
 
