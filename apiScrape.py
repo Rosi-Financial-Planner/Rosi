@@ -1,5 +1,6 @@
 import requests
 import json
+import datetime
 
 
 def scrapeTheApi(customerId, apiKey):
@@ -123,6 +124,37 @@ def simplifyToCharges(events):
         for event in events[key]:
             output[key].append([event[0], event[3]])
     return output
+
+
+def jsonSimple(customerId, apiKey):
+    return json.dumps(simplifyToCharges(scrapeTheApi(customerId, apiKey)))
+
+
+def jsonScrape(customerId, apiKey):
+    return json.dumps(scrapeTheApi(customerId, apiKey))
+
+
+def jsonMonthScrape(customerId, apiKey, months):
+    output = {}
+    currentDate = datetime.date.today()
+    currentMonth = currentDate.month
+    currentYear = currentDate.year
+    targetMonth = currentMonth - months % 12
+    if currentMonth < months:
+        targetYear = currentYear - 1
+    else:
+        targetYear = currentYear
+
+    scraped = scrapeTheApi(customerId, apiKey)
+    for key in scraped.keys():
+        output[key] = []
+        for event in scraped[key]:
+            eventYear = int(event[0][0:4])
+            eventMonth = int(event[0][5:7])
+            if eventYear >= targetYear:
+                if eventMonth >= targetMonth:
+                    output[key].append(event)
+    return json.dumps(output)
 
 
 if __name__ == "__main__":
