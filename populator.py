@@ -63,5 +63,5 @@ def populate_bills(n):
         )
 
 
-populate_purchases(0)
-populate_bills(5)
+populate_purchases(50)
+populate_bills(0)

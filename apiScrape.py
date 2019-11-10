@@ -1,9 +1,6 @@
 import requests
 import json
 
-custId = '5dc6e809322fa016762f363f'
-key = '32b4c33d3c73bb71a1116bba8c3df39e'
-
 
 def scrapeTheApi(customerId, apiKey):
     accountsUrl = \
@@ -119,6 +116,21 @@ def scrapeTheApi(customerId, apiKey):
     return events
 
 
-scraped = scrapeTheApi(custId, key)
-with open('result.json', 'w') as fp:
-    json.dump(scraped, fp)
+def simplifyToCharges(events):
+    output = {}
+    for key in events.keys():
+        output[key] = []
+        for event in events[key]:
+            output[key].append([event[0], event[3]])
+    return output
+
+
+if __name__ == "__main__":
+    custId = '5dc6e809322fa016762f363f'
+    key = '32b4c33d3c73bb71a1116bba8c3df39e'
+
+    scraped = scrapeTheApi(custId, key)
+    simplified = simplifyToCharges(scraped)
+
+    with open('result.json', 'w') as fp:
+        json.dump(simplified, fp)
