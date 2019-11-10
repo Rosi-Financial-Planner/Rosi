@@ -156,7 +156,7 @@ def monthFilter(events, months):
             if eventYear >= targetYear:
                 if eventMonth >= targetMonth:
                     output[key].append(event)
-    return json.dumps(output)
+    return output
 
 
 def jsonMonthScrape(customerId, apiKey, months):
