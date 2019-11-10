@@ -117,6 +117,10 @@ def scrapeTheApi(customerId, apiKey):
                         )
     return events
 
+def findUnknowns(events):
+    for key in events.keys():
+        for index in range(len(events[key])):
+            if events[key][index][2] == None:
 
 def simplifyToCharges(events):
     output = {}
