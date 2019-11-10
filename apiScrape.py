@@ -2,7 +2,7 @@ import requests
 import json
 import datetime
 
-cache = "cache.json"
+cache = "/tmp/cache.json"
 
 
 def scrapeTheApi(customerId, apiKey):
@@ -160,7 +160,7 @@ def jsonMonthScrape(customerId, apiKey, months):
 
 
 def cacheLoad():
-    with open('cache.json', 'r') as fp:
+    with open(cache, 'r') as fp:
         return json.load(fp)
 
 
