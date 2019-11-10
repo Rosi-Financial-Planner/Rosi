@@ -28,9 +28,6 @@ def populate_purchases(n):
         # mid = random.choice(food_id)
         # price = random.randint(8, 30)
         price, mid = mid_repo.select_random()
-        
-
-
         payload = {
             "merchant_id": mid,
             "medium": "balance",

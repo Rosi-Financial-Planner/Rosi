@@ -1,7 +1,7 @@
 import flask
 import apiScrape
 import os
-import json
+import tips
 
 customerId = '5dc6e809322fa016762f363f'
 apiKey = '32b4c33d3c73bb71a1116bba8c3df39e'
@@ -19,7 +19,6 @@ def home():
 
 @app.route('/entries/all', methods=['GET'])
 def api_all():
-    #return apiScrape.jsonScrape(customerId, apiKey)
     return cache
 
 
@@ -31,13 +30,11 @@ def api_recent():
         return """Error: Give a number of
                   months in the past from which to draw data"""
 
-    #return apiScrape.jsonMonthScrape(customerId, apiKey, months)
     return apiScrape.monthFilter(cache, months)
 
 
 @app.route('/entries/simple', methods=['GET'])
 def api_simple():
-    #return apiScrape.jsonSimple(customerId, apiKey)
     return apiScrape.simplifyToCharges(cache)
 
 
@@ -46,6 +43,11 @@ def update():
     global cache
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
     return cache
+
+
+@app.route('/tips', methods=['GET'])
+def get_tips():
+    return tips.get_tips(cache)
 
 
 port = int(os.environ.get('PORT'))

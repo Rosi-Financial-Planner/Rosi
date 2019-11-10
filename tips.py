@@ -5,6 +5,8 @@ food_words = ['restaurant', 'meal_takeaway', 'grocery_or_supermarket', 'meal_del
 clothing_words = ['department_store', 'shoe_store', 'clothing_store', 'shopping_mall', 'Department Store']
 entertainment_word = ['bar', 'night_club', 'bowling_alley']
 
+dataPath = "datasets/"
+
 def sum_cost(events):
     sum_el = sum_water = sum_food = sum_clo = sum_ent = 0
 
@@ -50,25 +52,31 @@ def electricity_cost(path, state, base = 915):
 def elec_tip(avg, month_sum):
     percent_dif = (month_sum - avg) / avg * 100
     if(percent_dif > 20):
-        print("Last month, you spent: $" + str(month_sum) + " on your electric bill. \nYour electricity bill is " \
-             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your electric bill here: https://paylesspower.com/blog/how-to-lower-your-electric-bill/")
+        return "Last month, you spent: $" + str(month_sum) + " on your electric bill. \nYour electricity bill is " \
+             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your electric bill here: https://paylesspower.com/blog/how-to-lower-your-electric-bill/"
+    else:
+        return None
     
 
 def water_tip(month_sum, avg = 53.41):
     percent_dif = (month_sum - avg) / avg * 100
     if(percent_dif > 20):
-        print("Last month, you spent: $" + str(month_sum) + " on your water bill. \nYour water bill is " \
-             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your water bill here: https://money.usnews.com/money/blogs/my-money/2012/10/16/6-simple-ways-to-save-money-on-your-water-bill")
-        
+        return "Last month, you spent: $" + str(month_sum) + " on your water bill. \nYour water bill is " \
+             + str(round(percent_dif, 1)) + "% higher than your local average. \nYou can find out more information on how to reduce your water bill here: https://money.usnews.com/money/blogs/my-money/2012/10/16/6-simple-ways-to-save-money-on-your-water-bill"
+    else:
+        return None
+
 def food_tip(month_sum, avg = 425):
     percent_dif = (month_sum - avg) / avg * 100
     if(percent_dif > 20):
-        print("Last month, you spent: $" + str(month_sum) + " on food expenses. \nTo save money, we recommend spending no more than " \
-             + avg + "per month. \nSave money by spending less money on restaurants and instead buying groceries more often.")
+        return "Last month, you spent: $" + str(month_sum) + " on food expenses. \nTo save money, we recommend spending no more than " \
+             + avg + "per month. \nSave money by spending less money on restaurants and instead buying groceries more often."
+    else:
+        return None
 
 def execute(events):
     state = "NJ"
-    path = "C://Users//Rahul//Desktop//Rosi//datasets//"
+    path = dataPath
     state_avg = electricity_cost(path, state)
     sums = sum_cost(events)
     last_month = str(int(str(date.today())[5:7]) - 1)
@@ -76,6 +84,16 @@ def execute(events):
     water_tip(sums[last_month][1])
     food_tip(sums[last_month][2])
 
+def get_tips(events):
+    state = "NJ"
+    path = dataPath
+    state_avg = electricity_cost(path, state)
+    sums = sum_cost(events)
+    last_month = str(int(str(date.today())[5:7]) - 1)
+    tips = {}
+    tips["elec"] = elec_tip(state_avg, sums[last_month][0])
+    tips["water"] = water_tip(sums[last_month][1])
+    return tips
 
 if(__name__ == "__main__"):
     pass
