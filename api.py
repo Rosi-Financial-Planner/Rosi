@@ -1,6 +1,7 @@
 import flask
 import apiScrape
 import json
+import os
 
 customerId = '5dc6e809322fa016762f363f'
 apiKey = '32b4c33d3c73bb71a1116bba8c3df39e'
