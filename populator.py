@@ -97,4 +97,4 @@ def populate_bills(n):
 
 deposit(100000)
 populate_purchases(150)
-populate_bills(20)
+populate_bills(10)
