@@ -66,17 +66,26 @@ def populate_bills(n):
         .format(accountId, apiKey)
 
     for i in range(n):
-        payee = random.choice(["Water bill", "Electricity bill"])
-        if(payee == "Water bill"):
-            price = random.randint(150, 300)
-        else:
-            price = random.randint(50, 150)
         payload = {
             "payment_date": (datetime.date.today() -
                              datetime.timedelta(days=30*i)).isoformat(),
-            "payment_amount": price,
+            "payment_amount": random.randint(75, 100),
             "status": "pending",
-            "payee": payee
+            "payee": "Water bill"
+        }
+
+        requests.post(
+            billUrl,
+            data=json.dumps(payload),
+            headers={'content-type': 'application/json'},
+        )
+
+        payload = {
+            "payment_date": (datetime.date.today() -
+                             datetime.timedelta(days=30*i)).isoformat(),
+            "payment_amount": random.randint(160, 300),
+            "status": "pending",
+            "payee": "Electricity bill"
         }
 
         requests.post(
