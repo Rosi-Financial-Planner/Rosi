@@ -2,6 +2,8 @@ import requests
 import json
 import datetime
 
+cache = "cache.json"
+
 
 def scrapeTheApi(customerId, apiKey):
     accountsUrl = \
@@ -146,6 +148,34 @@ def jsonMonthScrape(customerId, apiKey, months):
         targetYear = currentYear
 
     scraped = scrapeTheApi(customerId, apiKey)
+    for key in scraped.keys():
+        output[key] = []
+        for event in scraped[key]:
+            eventYear = int(event[0][0:4])
+            eventMonth = int(event[0][5:7])
+            if eventYear >= targetYear:
+                if eventMonth >= targetMonth:
+                    output[key].append(event)
+    return json.dumps(output)
+
+
+def cacheLoad():
+    with open('cache.json', 'r') as fp:
+        return json.load(fp)
+
+
+def cacheMonthScrape(months):
+    output = {}
+    currentDate = datetime.date.today()
+    currentMonth = currentDate.month
+    currentYear = currentDate.year
+    targetMonth = currentMonth - months % 12
+    if currentMonth < months:
+        targetYear = currentYear - 1
+    else:
+        targetYear = currentYear
+
+    scraped = cacheLoad()
     for key in scraped.keys():
         output[key] = []
         for event in scraped[key]:
