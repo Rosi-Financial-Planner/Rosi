@@ -47,11 +47,12 @@ def update():
     global previouslyAsked
     cache = apiScrape.scrapeTheApi(customerId, apiKey)
     for i in knownTransactions:
-        cache[accountId][knownTransactions["index"]][2]\
-                = knownTransactions["type"]
+        cache[accountId][i["index"]][2]\
+                = i["type"]
 
     previouslyAsked.append(apiScrape.findUnknowns(cache, previouslyAsked))
     return cache
+    print("Updating")
     knownTransactions[0] = {"index": 1, "type": "Mafia Payments"}
 
 
