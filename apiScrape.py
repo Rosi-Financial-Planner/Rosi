@@ -127,7 +127,7 @@ def scrapeTheApi(customerId, apiKey):
 def findUnknowns(events):
     for key in events.keys():
         for index in range(len(events[key])):
-            if events[key][index][2] == None:
+            if events[key][index][1] == None:
                 print("Sending message")
                 message = "We noticed that on {} you made a purchase of {}. Can you clarify what it was for?".format(events[key][index][0], events[key][index][3])
                 client.messages.create(
