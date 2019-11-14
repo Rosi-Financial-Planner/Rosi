@@ -5,8 +5,8 @@ import datetime
 from twilio.rest import Client
 
 
-account_sid = 'AC22dc02bd2293d5931a08cb79e2e4f35e'
-auth_token = 'eb5e4ef9806e7cd8602bdc9b8ce14ab2'
+account_sid = ''
+auth_token = ''
 
 client = Client(account_sid, auth_token)
 
